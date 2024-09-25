@@ -1,0 +1,40 @@
+struct Trie {
+    int count;
+    Trie* children[26];
+    Trie () {
+        count = 0;
+        memset(children, 0, sizeof(children));
+    }
+};
+
+class Solution {
+public:
+    vector<int> sumPrefixScores(vector<string>& words) {
+        auto root = new Trie();
+
+        for (string& w: words) {
+            auto tmpr = root;
+            for (int i = 0; i < w.size(); i++) {
+                if (tmpr->children[w[i]-'a'] == NULL)
+                    tmpr->children[w[i]-'a'] = new Trie();
+                tmpr = tmpr->children[w[i]-'a'];
+                tmpr->count++;
+            }
+        }
+
+    vector<int> answer;
+    answer.reserve(words.size());
+
+    for (string& w: words) {
+        int cnt = 0;
+        auto tmpr = root;
+        for (int i = 0; i < w.size(); i++) {
+            tmpr = tmpr->children[w[i]-'a'];
+            cnt += tmpr->count;
+        }
+        answer.push_back(cnt);
+    }
+
+    return answer;
+    }
+};
