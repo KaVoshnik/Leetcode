@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+        auto splitsWords = [](const string& sentence) {
+            vector<string> words;
+            string word =  "";
+            for (char s : sentence) {
+                if (s == ' ') {
+                    if (!word.empty()) {
+                        words.push_back(word);
+                        word = "";
+                    }
+                } else {
+                    word += s;
+                }
+            }
+            if (!word.empty()) words.push_back(word);
+            return words;
+        };
+
+        vector<string> words1 = splitsWords(sentence1);
+        vector<string> words2 = splitsWords(sentence2);
+        
+        if (words1.size() < words2.size()) swap(words1, words2);
+        
+        int start = 0, end = 0;
+        int c1 = words1.size(), c2 = words2.size();
+        
+        while (start < c2 && words1[start] == words2[start]) start++;
+        
+        while (end < c2 && words1[c1 - end - 1] == words2[c2 - end - 1]) end++;
+        
+        return start + end >= c2;
+    }
+};
