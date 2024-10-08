@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int minSwaps(string brackets) {
+        int swc = 0;
+        int imbalance = 0;
+        
+        for(char bracket : brackets) {
+            if(bracket == ']') {
+                if(imbalance == 0) {
+                    swc++;
+                    imbalance++;
+                } else {
+                    imbalance--;
+                }
+            } else {
+                imbalance++;
+            }
+        }
+        
+        return swc;
+    }
+};
